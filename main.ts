@@ -19,8 +19,12 @@ const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
 mkdirSync(out, { recursive: true });
 cpSync(join(here, 'game'), join(out, 'game'), { recursive: true });
+const shotDir = join(here, 'screenshots');
+if (!existsSync(shotDir)) {
+  throw new Error('screenshots/ is missing: capture 3 or 4 PNG or JPEG shots of the live game before handing it in');
+}
 mkdirSync(join(out, 'screenshots'), { recursive: true });
-if (existsSync(join(here, 'screenshots'))) cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+cpSync(shotDir, join(out, 'screenshots'), { recursive: true });
 
 writeFileSync(
   join(out, 'dossier.json'),
